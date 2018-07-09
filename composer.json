@@ -1,0 +1,18 @@
+{
+    "name": "midnite81/xml2array",
+    "description": "A package to convert xml to arrays",
+    "type": "project",
+    "license": "Unlicenced",
+    "autoload": {
+        "psr-4": {
+            "Midnite81\\Xml2Array\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Simon Rogers",
+            "email": "webdev@centralblue.co.uk"
+        }
+    ],
+    "require": {}
+}
