@@ -6,7 +6,7 @@ use DOMDocument;
 use Midnite81\Xml2Array\XmlResponse;
 use Midnite81\Xml2Array\Exceptions\IncorrectFormatException;
 
-class XmlToArray
+class Xml2Array
 {
     /**
      * Factory create method
@@ -38,13 +38,13 @@ class XmlToArray
     /**
      * Convert XML
      *
-     * @param $xmlstr
+     * @param $xmlString
      * @return array|string
      */
-    protected function domConvert($xmlstr)
+    protected function domConvert($xmlString)
     {
         $doc = new DOMDocument();
-        $doc->loadXML($xmlstr);
+        $doc->loadXML($xmlString);
         $root = $doc->documentElement;
         $output = $this->domnode_to_array($root);
         $output['@root'] = $root->tagName;

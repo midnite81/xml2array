@@ -107,7 +107,6 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      */
     public function offsetExists($offset)
     {
-        var_dump('hit offset exists ' . $offset);
         return isset($this->array[$offset]);
     }
 
@@ -123,7 +122,6 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      */
     public function offsetGet($offset)
     {
-        var_dump('hit offset get ' . $offset);
         return isset($this->array[$offset]) ? $this->array[$offset] : null;
     }
 
@@ -142,7 +140,6 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        var_dump('hit offset set ' . $offset);
         return isset($this->array[$offset]) ? $this->array[$offset] : null;
     }
 
@@ -158,6 +155,5 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        var_dump('hit offset unset ' . $offset);
         unset($this->array[$offset]);
 }}
