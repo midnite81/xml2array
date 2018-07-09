@@ -2,7 +2,7 @@
     "name": "midnite81/xml2array",
     "description": "A package to convert XML to an Array with the inbuilt ability to convert to Json, Laravel Collection and Serialize",
     "type": "package",
-    "license": "Unlicenced",
+    "license": "Unlicense",
     "autoload": {
         "psr-4": {
             "Midnite81\\Xml2Array\\": "src/"
