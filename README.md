@@ -1,4 +1,4 @@
-# Xml2Array
+# Xml2Array [![Latest Stable Version](https://poser.pugx.org/midnite81/xml2array/version)](https://packagist.org/packages/midnite81/xml2array) [![Total Downloads](https://poser.pugx.org/midnite81/xml2array/downloads)](https://packagist.org/packages/midnite81/xml2array) [![Latest Unstable Version](https://poser.pugx.org/midnite81/xml2array/v/unstable)](https://packagist.org/packages/midnite81/xml2array) [![License](https://poser.pugx.org/midnite81/xml2array/license.svg)](https://packagist.org/packages/midnite81/xml2array)
 _Package based on [gaarf/XML-string-to-PHP-array](https://github.com/gaarf/XML-string-to-PHP-array)_
 
 # Installation
