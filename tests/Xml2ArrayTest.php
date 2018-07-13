@@ -5,8 +5,6 @@ namespace Midnite81\Xml2Array\Tests;
 use Illuminate\Support\Collection;
 use Midnite81\Xml2Array\Xml2Array;
 use Midnite81\Xml2Array\XmlResponse;
-use Mockery;
-use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
 
 class Xml2ArrayTest extends TestCase
