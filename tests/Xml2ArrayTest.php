@@ -5,6 +5,8 @@ namespace Midnite81\Xml2Array\Tests;
 use Illuminate\Support\Collection;
 use Midnite81\Xml2Array\Xml2Array;
 use Midnite81\Xml2Array\XmlResponse;
+use Mockery;
+use Mockery\Mock;
 use PHPUnit\Framework\TestCase;
 
 class Xml2ArrayTest extends TestCase
@@ -78,7 +80,7 @@ class Xml2ArrayTest extends TestCase
         $this->assertInternalType('array', $xmlResponseCollection->get('food'));
         $this->assertEquals('Belgian Waffles', $xmlResponseCollection->get('food')['name']);
     }
-
+    
     /**
      * @test
      */
@@ -118,9 +120,13 @@ class Xml2ArrayTest extends TestCase
         $this->objectHasAttribute('calories', $decodedJson->food);
     }
 
+    /**
+     * @test
+     */
     public function it_returns_traversable()
     {
         $this->assertInstanceOf(\Traversable::class, $this->xmlResponse->getIterator());
+        $this->assertInstanceOf(\ArrayIterator::class, $this->xmlResponse->getIterator());
     }
 
     /**
