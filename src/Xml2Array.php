@@ -28,7 +28,7 @@ class Xml2Array
      */
     public function convert($xml)
     {
-        if (! is_string($xml)) {
+        if (! is_string($xml) || substr(trim($xml), 0, 1) != '<') {
             throw new IncorrectFormatException('XML passed must be a string');
         }
 

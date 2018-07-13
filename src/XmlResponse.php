@@ -6,6 +6,7 @@ use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use Midnite81\Xml2Array\CollectionsNotFoundException;
+use RecursiveIterator;
 use Traversable;
 
 class XmlResponse implements IteratorAggregate, ArrayAccess
@@ -42,6 +43,11 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
         return serialize($this->array);
     }
 
+    /**
+     * Alias of serialise
+     *
+     * @return string
+     */
     public function serialise()
     {
         return $this->serialize();
@@ -54,7 +60,7 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      */
     public function toJson()
     {
-        return json_decode($this->array);
+        return json_encode($this->array);
     }
 
     /**
@@ -136,6 +142,7 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      *                      The value to set.
      *                      </p>
      * @return void
+     * @codeCoverageIgnore
      * @since 5.0.0
      */
     public function offsetSet($offset, $value)
@@ -151,9 +158,11 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      *                      The offset to unset.
      *                      </p>
      * @return void
+     * @codeCoverageIgnore
      * @since 5.0.0
      */
     public function offsetUnset($offset)
     {
         unset($this->array[$offset]);
-}}
+    }
+}
