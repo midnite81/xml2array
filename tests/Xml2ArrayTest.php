@@ -157,6 +157,7 @@ class Xml2ArrayTest extends TestCase
                         Two of our famous Belgian Waffles with plenty of real maple syrup
                         </description>
                         <calories>650</calories>
+                        <coupon isAllowed="true">Coupons Allowed</coupon>
                     </food>
                 </breakfast_menu>
 xml;
