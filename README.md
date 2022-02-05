@@ -2,7 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/midnite81/xml2array/version)](https://packagist.org/packages/midnite81/xml2array) [![Total Downloads](https://poser.pugx.org/midnite81/xml2array/downloads)](https://packagist.org/packages/midnite81/xml2array) [![Latest Unstable Version](https://poser.pugx.org/midnite81/xml2array/v/unstable)](https://packagist.org/packages/midnite81/xml2array) [![License](https://poser.pugx.org/midnite81/xml2array/license.svg)](https://packagist.org/packages/midnite81/xml2array) [![Build](https://travis-ci.org/midnite81/xml2array.svg?branch=master)](https://travis-ci.org/midnite81/xml2array) [![Coverage Status](https://coveralls.io/repos/github/midnite81/xml2array/badge.svg?branch=master)](https://coveralls.io/github/midnite81/xml2array?branch=master)   
 _Package based on [gaarf/XML-string-to-PHP-array](https://github.com/gaarf/XML-string-to-PHP-array)_
 
-# Installation
+## Installation
 
 To install through composer include the package in your `composer.json`.
 
@@ -11,7 +11,7 @@ To install through composer include the package in your `composer.json`.
 Run `composer install` or `composer update` to download the dependencies or 
 you can run `composer require midnite81/xml2array`.
 
-# Example usage:
+## Example usage:
  
 ```php
 use Midnite81\Xml2Array\Xml2Array;
