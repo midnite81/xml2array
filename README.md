@@ -6,9 +6,11 @@ _Package based on [gaarf/XML-string-to-PHP-array](https://github.com/gaarf/XML-s
 
 To install through composer include the package in your `composer.json`.
 
-    "midnite81/xml2array": "^1.0.0"
+_If you are using php 8.1+ use "^2.0.0" for php7 use "^1.0.0"._
 
-Run `composer install` or `composer update` to download the dependencies or 
+    "midnite81/xml2array": "^2.0.0"
+
+Run `composer install` or `composer update` to download the dependencies, or 
 you can run `composer require midnite81/xml2array`.
 
 ## Example usage:

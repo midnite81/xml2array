@@ -3,7 +3,7 @@
 namespace Midnite81\Xml2Array;
 
 use DOMDocument;
-use Midnite81\Xml2Array\XmlResponse;
+use Exception;
 use Midnite81\Xml2Array\Exceptions\IncorrectFormatException;
 
 class Xml2Array
@@ -12,9 +12,10 @@ class Xml2Array
      * Factory create method
      *
      * @param $xml
-     * @return mixed
+     * @return XmlResponse
+     * @throws Exception
      */
-    public static function create($xml)
+    public static function create($xml): XmlResponse
     {
         return (new static())->convert($xml);
     }
@@ -23,12 +24,12 @@ class Xml2Array
      * Convert XML to Array
      *
      * @param $xml
-     * @return array|string
-     * @throws \Exception
+     * @return XmlResponse
+     * @throws Exception
      */
-    public function convert($xml)
+    public function convert($xml): XmlResponse
     {
-        if (! is_string($xml) || substr(trim($xml), 0, 1) != '<') {
+        if (! is_string($xml) || !str_starts_with(trim($xml), '<')) {
             throw new IncorrectFormatException('XML passed must be a string');
         }
 
@@ -41,12 +42,12 @@ class Xml2Array
      * @param $xmlString
      * @return array|string
      */
-    protected function domConvert($xmlString)
+    protected function domConvert($xmlString): array|string
     {
         $doc = new DOMDocument();
         $doc->loadXML($xmlString);
         $root = $doc->documentElement;
-        $output = $this->domnode_to_array($root);
+        $output = $this->domNodeToArray($root);
         $output['@root'] = $root->tagName;
 
         return $output;
@@ -58,7 +59,7 @@ class Xml2Array
      * @param $node
      * @return array|string
      */
-    protected function domnode_to_array($node)
+    protected function domNodeToArray($node): array|string
     {
         $output = array();
         switch ($node->nodeType) {
@@ -69,7 +70,7 @@ class Xml2Array
             case XML_ELEMENT_NODE:
                 for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
                     $child = $node->childNodes->item($i);
-                    $v = $this->domnode_to_array($child);
+                    $v = $this->domNodeToArray($child);
                     if(isset($child->tagName)) {
                         $t = $child->tagName;
                         if(! isset($output[$t])) {
@@ -81,8 +82,8 @@ class Xml2Array
                         $output = (string) $v;
                     }
                 }
-                if($node->attributes->length && ! is_array($output)) { //Has attributes but isn't an array
-                    $output = array('@content'=>$output); //Change output into an array.
+                if($this->hasAttributesButIsNotArray($node, $output)) {
+                    $output = ['@content'=>$output]; //Change output into an array.
                 }
                 if(is_array($output)) {
                     if($node->attributes->length) {
@@ -101,5 +102,15 @@ class Xml2Array
                 break;
         }
         return $output;
+    }
+
+    /**
+     * @param $node
+     * @param array|string $output
+     * @return bool
+     */
+    protected function hasAttributesButIsNotArray($node, array|string $output): bool
+    {
+        return $node->attributes->length && !is_array($output);
     }
 }
