@@ -4,14 +4,16 @@ namespace Midnite81\Xml2Array;
 
 use ArrayAccess;
 use ArrayIterator;
+use Exception;
+use Illuminate\Support\Collection;
 use IteratorAggregate;
-use Midnite81\Xml2Array\CollectionsNotFoundException;
-use RecursiveIterator;
+use Midnite81\Xml2Array\Exceptions\CollectionsNotFoundException;
+use ReturnTypeWillChange;
 use Traversable;
 
 class XmlResponse implements IteratorAggregate, ArrayAccess
 {
-    protected $array;
+    protected array $array;
 
     /**
      * XmlResponse constructor.
@@ -26,9 +28,9 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
     /**
      * To array
      *
-     * @return mixed
+     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->array;
     }
@@ -38,7 +40,7 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      *
      * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize($this->array);
     }
@@ -48,7 +50,7 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      *
      * @return string
      */
-    public function serialise()
+    public function serialise(): string
     {
         return $this->serialize();
     }
@@ -56,9 +58,9 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
     /**
      * To Json
      *
-     * @return mixed
+     * @return false|string
      */
-    public function toJson()
+    public function toJson(): bool|string
     {
         return json_encode($this->array);
     }
@@ -66,10 +68,10 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
     /**
      * To Laravel Collection (if installed)
      *
-     * @return mixed
-     * @throws \Exception
+     * @return Collection
+     * @throws Exception
      */
-    public function toCollection()
+    public function toCollection(): Collection
     {
         if (function_exists('collect')) {
             return collect($this->array);
@@ -80,7 +82,7 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
     /**
      * To string
      *
-     * @return mixed
+     * @return string
      */
     public function __toString()
     {
@@ -91,9 +93,9 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
      * Retrieve an external iterator
      *
      * @link  http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable
+     * @return Traversable|ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable|ArrayIterator
     {
         return new ArrayIterator($this->array);
 }
@@ -101,17 +103,9 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
     /**
      * Whether a offset exists
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     *                      An offset to check for.
-     *                      </p>
-     * @return boolean true on success or false on failure.
-     *                      </p>
-     *                      <p>
-     *                      The return value will be casted to boolean if non-boolean was returned.
-     * @since 5.0.0
+     * @inheritdoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->array[$offset]);
     }
@@ -119,49 +113,30 @@ class XmlResponse implements IteratorAggregate, ArrayAccess
     /**
      * Offset to retrieve
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     *                      The offset to retrieve.
-     *                      </p>
-     * @return mixed Can return all value types.
-     * @since 5.0.0
+     * @inheritdoc
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
-        return isset($this->array[$offset]) ? $this->array[$offset] : null;
+        return $this->array[$offset] ?? null;
     }
 
     /**
      * Offset to set
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     *                      The offset to assign the value to.
-     *                      </p>
-     * @param mixed $value  <p>
-     *                      The value to set.
-     *                      </p>
-     * @return void
-     * @codeCoverageIgnore
-     * @since 5.0.0
+     * @inheritdoc
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
-        return isset($this->array[$offset]) ? $this->array[$offset] : null;
+        return $this->array[$offset] ?? null;
     }
 
     /**
      * Offset to unset
      *
-     * @link  http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     *                      The offset to unset.
-     *                      </p>
-     * @return void
-     * @codeCoverageIgnore
-     * @since 5.0.0
+     * @inheritdoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->array[$offset]);
     }

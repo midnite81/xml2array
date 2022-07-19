@@ -2,16 +2,18 @@
 
 namespace Midnite81\Xml2Array\Tests;
 
+use Exception;
 use Illuminate\Support\Collection;
+use Midnite81\Xml2Array\Exceptions\IncorrectFormatException;
 use Midnite81\Xml2Array\Xml2Array;
 use Midnite81\Xml2Array\XmlResponse;
 use PHPUnit\Framework\TestCase;
 
 class Xml2ArrayTest extends TestCase
 {
-    protected $xmlResponse;
+    protected XmlResponse $xmlResponse;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->xmlResponse = $this->setupXml();
     }
@@ -26,10 +28,10 @@ class Xml2ArrayTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Midnite81\Xml2Array\Exceptions\IncorrectFormatException
      */
     public function it_throws_an_exception_when_not_valid_xml()
     {
+        $this->expectException(IncorrectFormatException::class);
         $xmlResponse = Xml2Array::create('invalid xml');
     }
 
@@ -41,7 +43,7 @@ class Xml2ArrayTest extends TestCase
 
         $xmlResponseArray = $this->xmlResponse->toArray();
 
-        $this->assertInternalType('array', $xmlResponseArray);
+        $this->assertIsArray($xmlResponseArray);
         $this->assertArrayHasKey('food', $xmlResponseArray);
         $this->assertArrayHasKey('name', $xmlResponseArray['food']);
         $this->assertArrayHasKey('price', $xmlResponseArray['food']);
@@ -75,7 +77,7 @@ class Xml2ArrayTest extends TestCase
         $xmlResponseCollection = $this->xmlResponse->toCollection();
 
         $this->assertInstanceOf(Collection::class, $xmlResponseCollection);
-        $this->assertInternalType('array', $xmlResponseCollection->get('food'));
+        $this->assertIsArray($xmlResponseCollection->get('food'));
         $this->assertEquals('Belgian Waffles', $xmlResponseCollection->get('food')['name']);
     }
     
@@ -86,8 +88,8 @@ class Xml2ArrayTest extends TestCase
     {
         $xmlResponseSerialized = $this->xmlResponse->serialize();
 
-        $this->assertInternalType('string', $xmlResponseSerialized);
-        $this->assertContains('Belgian Waffles', $xmlResponseSerialized);
+        $this->assertIsString($xmlResponseSerialized);
+        $this->assertStringContainsString('Belgian Waffles', $xmlResponseSerialized);
     }
 
     /**
@@ -97,8 +99,8 @@ class Xml2ArrayTest extends TestCase
     {
         $xmlResponseSerialized = $this->xmlResponse->serialise();
 
-        $this->assertInternalType('string', $xmlResponseSerialized);
-        $this->assertContains('Belgian Waffles', $xmlResponseSerialized);
+        $this->assertIsString( 'string', $xmlResponseSerialized);
+        $this->assertStringContainsString('Belgian Waffles', $xmlResponseSerialized);
     }
 
     /**
@@ -144,7 +146,7 @@ class Xml2ArrayTest extends TestCase
     }
 
 
-    protected function sampleXml()
+    protected function sampleXml(): string
     {
         return <<<xml
                 <breakfast_menu>
@@ -163,10 +165,15 @@ xml;
     }
 
     /**
-     * @return Xml2Array
+     * @return XmlResponse
      */
-    protected function setupXml()
+    protected function setupXml(): XmlResponse
     {
-        return Xml2Array::create($this->sampleXml());
+        try {
+            return Xml2Array::create($this->sampleXml());
+        } catch (Exception $e) {
+            die("Couldn't create setup");
+        }
+
     }
 }
